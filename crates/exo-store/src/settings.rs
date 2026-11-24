@@ -336,11 +336,15 @@ pub struct PreviousSchedule {
 pub enum RemoteContentBlocking {
     /// `none`: `Show all images`, read receipts included.
     None,
-    /// `reduce-tracking`: `Block all known tracking pixels`. It's Exo's default because, with no
-    /// image proxy, a read receipt would reach the sender straight from your address.
-    #[default]
+    /// `reduce-tracking`: `Block all known tracking pixels`. This only catches a hardcoded tracker
+    /// list and tiny pixels, and only inside `<img>` — a CSS `background-image` or SVG tracker
+    /// still loads, and any normal remote image still reports your IP and open time to the sender,
+    /// since there's no image proxy.
     ReduceTracking,
-    /// `all`: `Block all remote images`, until the images in a message are shown.
+    /// `all`: `Block all remote images`, until the images in a message are shown. The default: with
+    /// no image proxy, loading remote content reveals your IP and open time to the sender, so Exo
+    /// blocks it until you choose to show a message's images.
+    #[default]
     All,
 }
 

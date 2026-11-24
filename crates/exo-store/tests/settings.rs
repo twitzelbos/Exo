@@ -60,8 +60,8 @@ async fn the_images_setting_is_kept_under_its_key_and_values() {
     assert_eq!(fresh.remote_content_blocking, None, "never chosen");
     assert_eq!(
         fresh.remote_content_blocking.unwrap_or_default(),
-        RemoteContentBlocking::ReduceTracking,
-        "Exo's default"
+        RemoteContentBlocking::All,
+        "Exo's default: block all remote images until shown"
     );
     for (choice, value) in [
         (RemoteContentBlocking::All, "all"),

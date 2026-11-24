@@ -388,7 +388,9 @@ impl Brands {
     /// setting can't be read, nothing is fetched.
     async fn blocked(&self) -> bool {
         match self.store.settings::<Settings>().await {
-            Ok(settings) => settings.remote_content_blocking == Some(RemoteContentBlocking::All),
+            Ok(settings) => {
+                settings.remote_content_blocking.unwrap_or_default() == RemoteContentBlocking::All
+            }
             Err(error) => {
                 log::warn!("reading the images setting: {error}");
                 true
